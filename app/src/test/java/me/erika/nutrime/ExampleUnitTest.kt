@@ -1,4 +1,4 @@
-package me.erika.retrofitexample
+package me.erika.nutrime
 
 import org.junit.Test
 

@@ -1,7 +1,7 @@
-package me.erika.retrofitexample.repository
+package me.erika.nutrime.repository
 
 import com.google.gson.GsonBuilder
-import me.erika.retrofitexample.network.FoodAPI
+import me.erika.nutrime.network.FoodAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,13 +18,17 @@ class NutritionRepository() {
     //Now repo method is suspend too and returns an item object.
     suspend fun getFoodFromService(item: String): FoodAPIResult {
         try {
-            return FoodAPIResult.Success(response = webservice.getFoodAPI(item))
+            return FoodAPIResult.Success(
+                response = webservice.getFoodAPI(
+                    item
+                )
+            )
         }
         catch (ex: Exception){
            return FoodAPIResult.Error(
-                message = "Server request failed due to an exception. Message: ${ex.message}",
-                cause = ex
-            )
+               message = "Server request failed due to an exception. Message: ${ex.message}",
+               cause = ex
+           )
         }
     }
 }

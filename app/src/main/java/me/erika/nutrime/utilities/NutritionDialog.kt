@@ -1,9 +1,9 @@
-package me.erika.retrofitexample.utilities
+package me.erika.nutrime.utilities
 
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import me.erika.retrofitexample.R
+import me.erika.nutrime.R
 
 
 class NutritionDialog{

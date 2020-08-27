@@ -1,10 +1,10 @@
-package me.erika.retrofitexample.view
+package me.erika.nutrime.view
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import me.erika.retrofitexample.R
+import me.erika.nutrime.R
 
 
 class MainActivity : AppCompatActivity() {

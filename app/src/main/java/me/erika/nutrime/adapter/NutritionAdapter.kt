@@ -1,14 +1,12 @@
-package me.erika.retrofitexample.adapter
+package me.erika.nutrime.adapter
 
-import android.content.Context
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.nutrients_view.view.*
-import me.erika.retrofitexample.R
-import me.erika.retrofitexample.utilities.inflate
-import me.erika.retrofitexample.repository.NutrientsDTO
+import me.erika.nutrime.R
+import me.erika.nutrime.utilities.inflate
+import me.erika.nutrime.repository.NutrientsDTO
 
 class NutritionAdapter:
     RecyclerView.Adapter<NutritionAdapter.ItemViewHolder>(){
@@ -22,7 +20,9 @@ class NutritionAdapter:
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflatedView = parent.inflate(R.layout.nutrients_view, false)
-        return  ItemViewHolder(inflatedView)
+        return ItemViewHolder(
+            inflatedView
+        )
     }
 
     //Will return the size of nutrients

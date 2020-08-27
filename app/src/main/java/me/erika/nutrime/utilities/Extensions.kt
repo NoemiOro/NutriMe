@@ -1,4 +1,4 @@
-package me.erika.retrofitexample.utilities
+package me.erika.nutrime.utilities
 
 import android.view.LayoutInflater
 import android.view.View

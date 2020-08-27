@@ -1,12 +1,12 @@
-package me.erika.retrofitexample.viewModel
+package me.erika.nutrime.viewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.erika.retrofitexample.R
-import me.erika.retrofitexample.repository.*
+import me.erika.nutrime.repository.*
+import me.erika.nutrime.R
 
 class NutritionActivityViewModel : ViewModel() {
 
@@ -71,11 +71,36 @@ class NutritionActivityViewModel : ViewModel() {
     //Wasn't needed to add these to arrayList, implemented this way only to use/practice Recycler
     private fun populateNutrientsArray(it: Nutrients): ArrayList<NutrientsDTO?> {
         val nutrients = ArrayList<NutrientsDTO?>()
-        nutrients.add(NutrientsDTO(R.string.calories, it.enerCal.toString()))
-        nutrients.add(NutrientsDTO(R.string.protein, it.procnt.toString()))
-        nutrients.add(NutrientsDTO(R.string.carbo, it.chocdf.toString()))
-        nutrients.add(NutrientsDTO(R.string.fat, it.fat.toString()))
-        nutrients.add(NutrientsDTO(R.string.fiber, it.fibtg.toString()))
+        nutrients.add(
+            NutrientsDTO(
+                R.string.calories,
+                it.enerCal.toString()
+            )
+        )
+        nutrients.add(
+            NutrientsDTO(
+                R.string.protein,
+                it.procnt.toString()
+            )
+        )
+        nutrients.add(
+            NutrientsDTO(
+                R.string.carbo,
+                it.chocdf.toString()
+            )
+        )
+        nutrients.add(
+            NutrientsDTO(
+                R.string.fat,
+                it.fat.toString()
+            )
+        )
+        nutrients.add(
+            NutrientsDTO(
+                R.string.fiber,
+                it.fibtg.toString()
+            )
+        )
         return nutrients
     }
 

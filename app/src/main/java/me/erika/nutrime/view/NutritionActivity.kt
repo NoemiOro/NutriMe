@@ -1,4 +1,4 @@
-package me.erika.retrofitexample.view
+package me.erika.nutrime.view
 
 import android.os.Bundle
 import android.view.View
@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_nutrition.*
-import me.erika.retrofitexample.R
-import me.erika.retrofitexample.adapter.NutritionAdapter
-import me.erika.retrofitexample.repository.NutrientsDTO
-import me.erika.retrofitexample.utilities.NutritionDialog
-import me.erika.retrofitexample.viewModel.NutritionActivityViewModel
+import me.erika.nutrime.R
+import me.erika.nutrime.adapter.NutritionAdapter
+import me.erika.nutrime.repository.NutrientsDTO
+import me.erika.nutrime.utilities.NutritionDialog
+import me.erika.nutrime.viewModel.NutritionActivityViewModel
 
 
 class NutritionActivity : AppCompatActivity() {

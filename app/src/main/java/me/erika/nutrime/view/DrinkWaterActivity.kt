@@ -1,4 +1,4 @@
-package me.erika.retrofitexample.view
+package me.erika.nutrime.view
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,7 +10,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_drink_water.*
-import me.erika.retrofitexample.R
+import me.erika.nutrime.R
 
 
 class DrinkWaterActivity :AppCompatActivity() {

@@ -1,4 +1,4 @@
-package me.erika.retrofitexample.repository
+package me.erika.nutrime.repository
 
 import com.google.gson.annotations.SerializedName
 

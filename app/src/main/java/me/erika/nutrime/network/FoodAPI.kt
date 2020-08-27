@@ -1,6 +1,6 @@
-package me.erika.retrofitexample.network
+package me.erika.nutrime.network
 
-import me.erika.retrofitexample.repository.FoodAPIResponse
+import me.erika.nutrime.repository.FoodAPIResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

@@ -1,4 +1,4 @@
-package me.erika.retrofitexample.repository
+package me.erika.nutrime.repository
 
 //Sealed class which will make our responses more even and easy to handle.
 //Sealed classes only can be extended within their file
