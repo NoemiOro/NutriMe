@@ -1,37 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <Button
-        android:id="@+id/drink_water_notify_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp">
 
-    <Button
-        android:id="@+id/drink_water_update_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drink_water_notify_btn" />
+        <Button
+            android:id="@+id/drink_water_notify_btn"
+            style="@style/Button"
+            android:text="Notify"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/drink_water_delete_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drink_water_update_btn" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/drink_water_update_btn"
+            style="@style/Button"
+            android:text="Update"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_notify_btn" />
+
+        <Button
+            android:id="@+id/drink_water_delete_btn"
+            style="@style/Button"
+            android:text="Delete"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_update_btn" />
+
+        <TextView
+            android:id="@+id/drink_water_settings_expandable_tv"
+            style="@style/ExpandableSection"
+            android:text="@string/drink_water_notification_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_delete_btn" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_expandable_tv">
+
+            <TextView
+                android:id="@+id/drink_water_settings_network_tv"
+               style="@style/DrinkWaterSubtitle"
+                android:text="Network Type Required:"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/drink_water_network_buttons_rg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_network_tv">
+
+                <RadioButton
+                    android:id="@+id/drink_water_none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="None" />
+
+                <RadioButton
+                    android:id="@+id/drink_water_any"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Any" />
+
+                <RadioButton
+                    android:id="@+id/drink_water_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wifi" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/drink_water_settings_requires_tv"
+                style="@style/DrinkWaterSubtitle"
+                android:text="Requires:"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_network_buttons_rg" />
+
+            <Switch
+                android:id="@+id/drink_water_settings_idle_sw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Device Idle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_requires_tv" />
+
+            <Switch
+                android:id="@+id/drink_water_settings_charging_sw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Device Charging"
+                app:layout_constraintStart_toEndOf="@+id/drink_water_settings_idle_sw"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_requires_tv" />
+
+            <TextView
+                android:id="@+id/drink_water_settings_deadline_tv"
+                style="@style/DrinkWaterSubtitle"
+                android:layout_width="wrap_content"
+                android:text="Override Deadline: "
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_idle_sw" />
+
+            <TextView
+                android:id="@+id/drink_water_settings_deadline_value_tv"
+                style="@style/DrinkWaterSubtitle"
+                android:layout_width="0dp"
+                android:layout_marginStart="8dp"
+                android:text="Not Set"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/drink_water_settings_deadline_tv"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_idle_sw" />
+
+            <SeekBar
+                android:id="@+id/drink_water_sb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_deadline_tv" />
+
+            <Button
+                android:id="@+id/drink_water_schedule_btn"
+                style="@style/Button"
+                android:text="Schedule Job"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_sb" />
+
+            <Button
+                android:id="@+id/drink_water_cancel_btn"
+                style="@style/Button"
+                android:text="Cancel Jobs"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_schedule_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

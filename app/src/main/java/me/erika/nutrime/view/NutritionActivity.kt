@@ -60,7 +60,6 @@ class NutritionActivity : AppCompatActivity() {
             nutrition_result_layout.visibility = View.VISIBLE
         }
         else{
-            nutrition_search_layout.visibility = View.VISIBLE
             nutrition_result_layout.visibility = View.GONE
         }
         nutrition_nutrients_pb.visibility = View.GONE

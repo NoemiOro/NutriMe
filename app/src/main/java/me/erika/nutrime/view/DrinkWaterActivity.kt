@@ -3,7 +3,11 @@ package me.erika.nutrime.view
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -15,11 +19,16 @@ import me.erika.nutrime.R
 
 class DrinkWaterActivity :AppCompatActivity() {
 
+    //Create notification with a channel
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
     private val PRIMARY_CHANNEL_ID = "drink_water_channel_id"
     private val CHANEL_NAME = "Miscellaneous"
     private val NOTIFICATION_ID = 0
+    //Add action to the notification
+    private val ACTION_UPDATE_NOTIFICATION =
+        "me.erika.nutrime.view.ACTION_UPDATE_NOTIFICATION"
+    var mReceiver: NotificationReceiver = NotificationReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,7 @@ class DrinkWaterActivity :AppCompatActivity() {
         }
 
         createNotificationChannel()
+        registerReceiver(mReceiver, IntentFilter( ACTION_UPDATE_NOTIFICATION))
     }
 
     private fun createNotificationChannel() {
@@ -67,6 +77,14 @@ class DrinkWaterActivity :AppCompatActivity() {
         val notificationIntent = Intent(this, DrinkWaterActivity::class.java)
         val notificationPendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, notificationIntent,
         PendingIntent.FLAG_UPDATE_CURRENT)
+        val waterImage = BitmapFactory
+            .decodeResource(resources, R.drawable.img_water)
+        //To add an action
+        val updateIntent = Intent(ACTION_UPDATE_NOTIFICATION)
+        //Wrap up intent in a pending intent to be executed later
+        val updatePendingIntent = PendingIntent.getBroadcast(
+            this, NOTIFICATION_ID,
+            updateIntent, PendingIntent.FLAG_ONE_SHOT)
 
         //3.-Build notification
         val notifyBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
@@ -76,6 +94,11 @@ class DrinkWaterActivity :AppCompatActivity() {
             .setContentIntent(notificationPendingIntent)
             .setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setStyle(NotificationCompat.BigPictureStyle()
+                .bigPicture(waterImage))
+            .addAction(R.drawable.ic_snooze, getString(R.string.drink_water_notification_snooze), updatePendingIntent)
+        //Android 7 an avobe don't show notification icon, however it is still required.
+        // Still used for wearable and older versions
         return notifyBuilder;
     }
 
@@ -85,12 +108,32 @@ class DrinkWaterActivity :AppCompatActivity() {
         notificationManager.notify(NOTIFICATION_ID, notifyBuilder.build())
     }
 
+    override fun onDestroy() {
+        unregisterReceiver(mReceiver)
+        super.onDestroy()
+    }
+
     private fun updateNotification() {
-        TODO("Not yet implemented")
+        val waterImage = BitmapFactory
+            .decodeResource(resources, R.drawable.img_water)
+        val notifyBuilder = getNotificationBuilder()
+        notifyBuilder.setStyle(NotificationCompat.BigPictureStyle()
+            .bigPicture(waterImage)
+            .setBigContentTitle("Notification Updated"))
+        notificationManager.notify(NOTIFICATION_ID, notifyBuilder.build())
     }
 
     private fun cancelNotification() {
         notificationManager.cancel(NOTIFICATION_ID)
+    }
+
+    inner class NotificationReceiver: BroadcastReceiver() {
+
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            updateNotification()
+            //Todo Snooze water notification here
+        }
+
     }
 
 }

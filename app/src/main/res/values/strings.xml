@@ -17,7 +17,12 @@
     <string name="alert_title">Alert</string>
     <string name="not_found">Food item was not found please check spelling or search a different item.</string>
     <string name="error_message">There has been an error, please try again later.</string>
+
+
     <string name="drink_water_notification_title">How about a glass of water?</string>
     <string name="drink_water_notification_text">Keep yourself healthy!</string>
     <string name="drink_water_notification_channel_description">Notification from NutriMe</string>
+    <string name="drink_water_notification_snooze">Snooze</string>
+    <string name="drink_water_notification_settings">Notification Settings</string>
+    <string name="todo">TODO</string>
 </resources>
