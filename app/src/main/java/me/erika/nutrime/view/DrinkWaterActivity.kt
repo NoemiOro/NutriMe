@@ -3,17 +3,21 @@ package me.erika.nutrime.view
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.*
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_drink_water.*
+import me.erika.nutrime.NotificationJobService
 import me.erika.nutrime.R
 
 
@@ -30,9 +34,24 @@ class DrinkWaterActivity :AppCompatActivity() {
         "me.erika.nutrime.view.ACTION_UPDATE_NOTIFICATION"
     var mReceiver: NotificationReceiver = NotificationReceiver()
 
+    //JobScheduler
+    val JOB_ID = 0
+    lateinit var mScheduler: JobScheduler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_water)
+
+        createNotificationChannel()
+        registerReceiver(mReceiver, IntentFilter( ACTION_UPDATE_NOTIFICATION))
+
+        drink_water_settings_expandable_tv.setOnClickListener{
+            updateNotificationSettingsUI()
+        }
+
+        drink_water_create_expandable_tv.setOnClickListener{
+            updateCreateReminderUI()
+        }
 
         drink_water_notify_btn.setOnClickListener {
             sendNotification()
@@ -46,10 +65,50 @@ class DrinkWaterActivity :AppCompatActivity() {
             cancelNotification()
         }
 
-        createNotificationChannel()
-        registerReceiver(mReceiver, IntentFilter( ACTION_UPDATE_NOTIFICATION))
+        drink_water_schedule_btn.setOnClickListener{
+            getNetworkPreference()
+        }
+
+        drink_water_cancel_btn.setOnClickListener{
+            cancelJobs()
+        }
     }
 
+    private fun updateCreateReminderUI() {
+        if(drink_water_create_cl.visibility == View.GONE){
+            drink_water_create_cl.visibility = View.VISIBLE
+            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
+        }
+        else{
+            drink_water_create_cl.visibility = View.GONE
+            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
+            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
+        }
+    }
+
+    private fun updateNotificationSettingsUI() {
+        if(drink_water_settings_cl.visibility == View.GONE){
+            drink_water_settings_cl.visibility = View.VISIBLE
+            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
+        }
+        else{
+            drink_water_settings_cl.visibility = View.GONE
+            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
+            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
+        }
+    }
+
+    //region Notification example
     private fun createNotificationChannel() {
 
         ////1.-NotificationManager is a class to notify the user of events that happen.
@@ -97,7 +156,7 @@ class DrinkWaterActivity :AppCompatActivity() {
             .setStyle(NotificationCompat.BigPictureStyle()
                 .bigPicture(waterImage))
             .addAction(R.drawable.ic_snooze, getString(R.string.drink_water_notification_snooze), updatePendingIntent)
-        //Android 7 an avobe don't show notification icon, however it is still required.
+        //Android 7 an above don't show notification icon, however it is still required.
         // Still used for wearable and older versions
         return notifyBuilder;
     }
@@ -135,5 +194,45 @@ class DrinkWaterActivity :AppCompatActivity() {
         }
 
     }
+    //endregion
 
+    //region Job Scheduler example
+
+    fun getNetworkPreference(){
+
+        mScheduler =  getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val selectedNetworkID = drink_water_network_options_rg.checkedRadioButtonId
+        var selectedNetworkOption = JobInfo.NETWORK_TYPE_NONE
+
+        when (selectedNetworkID) {
+            R.id.drink_water_none -> selectedNetworkOption = JobInfo.NETWORK_TYPE_NONE
+            R.id.drink_water_any -> selectedNetworkOption = JobInfo.NETWORK_TYPE_ANY
+            R.id.drink_water_wifi -> selectedNetworkOption = JobInfo.NETWORK_TYPE_UNMETERED
+        }
+
+        //Used to associate jobService and jobInfo
+        //jobService is the job and jobInfo is the critteria which defines when the job runs
+        val serviceName = ComponentName(
+            packageName,
+            NotificationJobService::class.java.name
+        )
+        val builder = JobInfo.Builder(JOB_ID, serviceName).setRequiredNetworkType(selectedNetworkOption)
+
+        //Passing jobInfo to scheduler
+        val myJobInfo = builder.build()
+        mScheduler.schedule(myJobInfo)
+
+        Toast.makeText(this, "Job Scheduled, job will run when " +
+                "the constraints are met.", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private fun cancelJobs() {
+        if (mScheduler!=null){
+            mScheduler.cancelAll()
+            Toast.makeText(this, "Jobs cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //endregion
 }

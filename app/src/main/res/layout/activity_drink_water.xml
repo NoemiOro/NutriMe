@@ -11,46 +11,75 @@
         android:layout_height="match_parent"
         android:paddingBottom="16dp">
 
-        <Button
-            android:id="@+id/drink_water_notify_btn"
-            style="@style/Button"
-            android:text="Notify"
-            android:layout_marginTop="60dp"
+        <TextView
+            android:id="@+id/drink_water_create_expandable_tv"
+            style="@style/ExpandableSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_add"
+            android:drawablePadding="16dp"
+            android:text="@string/drink_water_create_water_reminder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/drink_water_update_btn"
-            style="@style/Button"
-            android:text="Update"
-            android:layout_marginTop="60dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/drink_water_notify_btn" />
-
-        <Button
-            android:id="@+id/drink_water_delete_btn"
-            style="@style/Button"
-            android:text="Delete"
-            android:layout_marginTop="60dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/drink_water_update_btn" />
-
-        <TextView
-            android:id="@+id/drink_water_settings_expandable_tv"
-            style="@style/ExpandableSection"
-            android:text="@string/drink_water_notification_settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/drink_water_delete_btn" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/drink_water_create_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_create_expandable_tv" >
+
+
+            <Button
+                android:id="@+id/drink_water_notify_btn"
+                style="@style/Button"
+                android:text="Notify"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/drink_water_update_btn"
+                style="@style/Button"
+                android:text="Update"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_notify_btn" />
+
+            <Button
+                android:id="@+id/drink_water_delete_btn"
+                style="@style/Button"
+                android:text="Delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_update_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/drink_water_settings_expandable_tv"
+            style="@style/ExpandableSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_preferences"
+            android:drawablePadding="16dp"
+            android:text="@string/drink_water_reminder_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_water_create_cl" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/drink_water_settings_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_expandable_tv">
@@ -62,10 +91,10 @@
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+               app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
-                android:id="@+id/drink_water_network_buttons_rg"
+                android:id="@+id/drink_water_network_options_rg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -103,7 +132,7 @@
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/drink_water_network_buttons_rg" />
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_network_options_rg" />
 
             <Switch
                 android:id="@+id/drink_water_settings_idle_sw"
@@ -171,6 +200,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_schedule_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -23,6 +23,6 @@
     <string name="drink_water_notification_text">Keep yourself healthy!</string>
     <string name="drink_water_notification_channel_description">Notification from NutriMe</string>
     <string name="drink_water_notification_snooze">Snooze</string>
-    <string name="drink_water_notification_settings">Notification Settings</string>
-    <string name="todo">TODO</string>
+    <string name="drink_water_reminder_settings">Update Reminder Settings</string>
+    <string name="drink_water_create_water_reminder">Create Water Reminder</string>
 </resources>
