@@ -8,20 +8,24 @@ import android.app.job.JobScheduler
 import android.content.*
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_drink_water.*
-import me.erika.nutrime.NotificationJobService
+import me.erika.nutrime.utilities.NotificationJobService
 import me.erika.nutrime.R
+import me.erika.nutrime.viewModel.DrinkWaterViewModel
 
 
 class DrinkWaterActivity :AppCompatActivity() {
+
+    lateinit var mViewModel: DrinkWaterViewModel
 
     //Create notification with a channel
     lateinit var notificationManager: NotificationManager
@@ -35,12 +39,12 @@ class DrinkWaterActivity :AppCompatActivity() {
     var mReceiver: NotificationReceiver = NotificationReceiver()
 
     //JobScheduler
-    val JOB_ID = 0
     lateinit var mScheduler: JobScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_water)
+        mViewModel = ViewModelProvider(this).get(DrinkWaterViewModel::class.java)
 
         createNotificationChannel()
         registerReceiver(mReceiver, IntentFilter( ACTION_UPDATE_NOTIFICATION))
@@ -66,46 +70,27 @@ class DrinkWaterActivity :AppCompatActivity() {
         }
 
         drink_water_schedule_btn.setOnClickListener{
-            getNetworkPreference()
+            getJobScheduledPreferences()
         }
 
         drink_water_cancel_btn.setOnClickListener{
-            cancelJobs()
+            cancelWaterJob()
         }
-    }
 
-    private fun updateCreateReminderUI() {
-        if(drink_water_create_cl.visibility == View.GONE){
-            drink_water_create_cl.visibility = View.VISIBLE
-            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
-            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
-                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
-                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
-        }
-        else{
-            drink_water_create_cl.visibility = View.GONE
-            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
-            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
-                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
-                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
-        }
-    }
+        drink_water_sb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                if (p1 > 0){
+                    drink_water_settings_deadline_value_tv.setText("$p1 s");
+                }else {
+                    drink_water_settings_deadline_value_tv.setText(getString(R.string.drink_water_not_set));
+                }
+            }
 
-    private fun updateNotificationSettingsUI() {
-        if(drink_water_settings_cl.visibility == View.GONE){
-            drink_water_settings_cl.visibility = View.VISIBLE
-            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
-            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
-                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
-                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
-        }
-        else{
-            drink_water_settings_cl.visibility = View.GONE
-            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
-            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
-                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
-                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
-        }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+        })
+
     }
 
     //region Notification example
@@ -198,9 +183,17 @@ class DrinkWaterActivity :AppCompatActivity() {
 
     //region Job Scheduler example
 
-    fun getNetworkPreference(){
+    fun getJobScheduledPreferences(){
 
         mScheduler =  getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        //Used to associate jobService and jobInfo
+        //jobService is the job and jobInfo is the criteria which defines when the job runs
+        val serviceName = ComponentName(
+            packageName,
+            NotificationJobService::class.java.name
+        )
+
+        //Network
         val selectedNetworkID = drink_water_network_options_rg.checkedRadioButtonId
         var selectedNetworkOption = JobInfo.NETWORK_TYPE_NONE
 
@@ -210,29 +203,59 @@ class DrinkWaterActivity :AppCompatActivity() {
             R.id.drink_water_wifi -> selectedNetworkOption = JobInfo.NETWORK_TYPE_UNMETERED
         }
 
-        //Used to associate jobService and jobInfo
-        //jobService is the job and jobInfo is the critteria which defines when the job runs
-        val serviceName = ComponentName(
-            packageName,
-            NotificationJobService::class.java.name
-        )
-        val builder = JobInfo.Builder(JOB_ID, serviceName).setRequiredNetworkType(selectedNetworkOption)
+        //Deadline
+        //Multiplied to convert from milliseconds to seconds
+        val deadline = (drink_water_sb.progress * 1000).toLong()
 
-        //Passing jobInfo to scheduler
-        val myJobInfo = builder.build()
-        mScheduler.schedule(myJobInfo)
+        mViewModel.scheduleWaterJob(mScheduler, serviceName, selectedNetworkOption,
+            drink_water_settings_idle_sw.isChecked, drink_water_settings_charging_sw.isChecked, deadline)
 
         Toast.makeText(this, "Job Scheduled, job will run when " +
-                "the constraints are met.", Toast.LENGTH_SHORT).show();
+                "the constraints are met.", Toast.LENGTH_SHORT).show()
 
     }
 
-    private fun cancelJobs() {
+    private fun cancelWaterJob() {
         if (mScheduler!=null){
-            mScheduler.cancelAll()
+            mViewModel.cancelScheduledJob(mScheduler)
             Toast.makeText(this, "Jobs cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
     //endregion
+
+
+    private fun updateCreateReminderUI() {
+        if(drink_water_create_cl.visibility == View.GONE){
+            drink_water_create_cl.visibility = View.VISIBLE
+            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
+        }
+        else{
+            drink_water_create_cl.visibility = View.GONE
+            drink_water_create_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
+            drink_water_create_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_add), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
+        }
+    }
+
+    private fun updateNotificationSettingsUI() {
+        if(drink_water_settings_cl.visibility == View.GONE){
+            drink_water_settings_cl.visibility = View.VISIBLE
+            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_up_float), null)
+        }
+        else{
+            drink_water_settings_cl.visibility = View.GONE
+            drink_water_settings_expandable_tv.setTextColor(ContextCompat.getColor(this, R.color.colorFontDark))
+            drink_water_settings_expandable_tv.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(this,android.R.drawable.ic_menu_preferences), null,
+                ContextCompat.getDrawable(this, android.R.drawable.arrow_down_float), null)
+        }
+    }
 }

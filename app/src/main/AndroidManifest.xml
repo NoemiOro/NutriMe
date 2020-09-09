@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <service
-            android:name=".NotificationJobService"
+            android:name=".utilities.NotificationJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity android:name="me.erika.nutrime.view.MainActivity">

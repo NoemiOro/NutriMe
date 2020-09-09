@@ -1,4 +1,4 @@
-package me.erika.nutrime
+package me.erika.nutrime.utilities
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import me.erika.nutrime.R
 import me.erika.nutrime.view.DrinkWaterActivity
 
 class NotificationJobService: JobService() {
@@ -84,7 +85,10 @@ class NotificationJobService: JobService() {
             .setStyle(
                 NotificationCompat.BigPictureStyle()
                     .bigPicture(waterImage))
-            .addAction(R.drawable.ic_snooze, getString(R.string.drink_water_notification_snooze), updatePendingIntent)
+            .addAction(
+                R.drawable.ic_snooze, getString(
+                    R.string.drink_water_notification_snooze
+                ), updatePendingIntent)
         //Android 7 an above don't show notification icon, however it is still required.
         // Still used for wearable and older versions
 

@@ -25,4 +25,18 @@
     <string name="drink_water_notification_snooze">Snooze</string>
     <string name="drink_water_reminder_settings">Update Reminder Settings</string>
     <string name="drink_water_create_water_reminder">Create Water Reminder</string>
+    <string name="drink_water_not_set">Not Set</string>
+    <string name="drink_water_override_deadline">Override Deadline:</string>
+    <string name="drink_water_device_charging">Device Charging</string>
+    <string name="drink_water_device_idle">Device Idle</string>
+    <string name="drink_water_requires">Requires:</string>
+    <string name="drink_water_wifi">Wifi</string>
+    <string name="drink_water_any">Any</string>
+    <string name="drink_water_none">None</string>
+    <string name="drink_water_notify">Notify</string>
+    <string name="drink_water_update">Update</string>
+    <string name="drink_water_delete">Delete</string>
+    <string name="drink_water_network_type_required">Network Type Required:</string>
+    <string name="drink_water_schedule_job">Schedule Job</string>
+    <string name="drink_water_cancel_jobs">Cancel Jobs</string>
 </resources>

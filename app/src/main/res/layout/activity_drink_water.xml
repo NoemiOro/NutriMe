@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,7 +37,7 @@
             <Button
                 android:id="@+id/drink_water_notify_btn"
                 style="@style/Button"
-                android:text="Notify"
+                android:text="@string/drink_water_notify"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +45,7 @@
             <Button
                 android:id="@+id/drink_water_update_btn"
                 style="@style/Button"
-                android:text="Update"
+                android:text="@string/drink_water_update"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_notify_btn" />
@@ -54,7 +53,7 @@
             <Button
                 android:id="@+id/drink_water_delete_btn"
                 style="@style/Button"
-                android:text="Delete"
+                android:text="@string/drink_water_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_update_btn" />
@@ -86,12 +85,12 @@
 
             <TextView
                 android:id="@+id/drink_water_settings_network_tv"
-               style="@style/DrinkWaterSubtitle"
-                android:text="Network Type Required:"
+                style="@style/DrinkWaterSubtitle"
+                android:text="@string/drink_water_network_type_required"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
                 android:id="@+id/drink_water_network_options_rg"
@@ -110,25 +109,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="None" />
+                    android:text="@string/drink_water_none" />
 
                 <RadioButton
                     android:id="@+id/drink_water_any"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Any" />
+                    android:text="@string/drink_water_any" />
 
                 <RadioButton
                     android:id="@+id/drink_water_wifi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wifi" />
+                    android:text="@string/drink_water_wifi" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/drink_water_settings_requires_tv"
                 style="@style/DrinkWaterSubtitle"
-                android:text="Requires:"
+                android:text="@string/drink_water_requires"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Device Idle"
+                android:text="@string/drink_water_device_idle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_requires_tv" />
 
@@ -150,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Device Charging"
+                android:text="@string/drink_water_device_charging"
                 app:layout_constraintStart_toEndOf="@+id/drink_water_settings_idle_sw"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_requires_tv" />
 
@@ -158,8 +157,9 @@
                 android:id="@+id/drink_water_settings_deadline_tv"
                 style="@style/DrinkWaterSubtitle"
                 android:layout_width="wrap_content"
-                android:text="Override Deadline: "
+                android:text="@string/drink_water_override_deadline"
                 android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@+id/drink_water_sb"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_idle_sw" />
 
@@ -168,10 +168,12 @@
                 style="@style/DrinkWaterSubtitle"
                 android:layout_width="0dp"
                 android:layout_marginStart="8dp"
-                android:text="Not Set"
+                android:text="@string/drink_water_not_set"
+                app:layout_constraintBottom_toTopOf="@+id/drink_water_sb"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/drink_water_settings_deadline_tv"
-                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_idle_sw" />
+                app:layout_constraintTop_toBottomOf="@+id/drink_water_settings_charging_sw" />
 
             <SeekBar
                 android:id="@+id/drink_water_sb"
@@ -186,7 +188,7 @@
             <Button
                 android:id="@+id/drink_water_schedule_btn"
                 style="@style/Button"
-                android:text="Schedule Job"
+                android:text="@string/drink_water_schedule_job"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_sb" />
@@ -194,7 +196,7 @@
             <Button
                 android:id="@+id/drink_water_cancel_btn"
                 style="@style/Button"
-                android:text="Cancel Jobs"
+                android:text="@string/drink_water_cancel_jobs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/drink_water_schedule_btn" />

@@ -12,7 +12,7 @@ interface FoodAPI {
         "X-RapidAPI-Key: c977c7c52amsh02ac9404b58b8c4p1ea727jsn8582dbbc0df2"
     )
 
-    //With retrofit support for courrutines, changed call<FoodAPIResponse> to suspend
+    //With retrofit support for coroutines, changed call<FoodAPIResponse> to suspend
     @GET("/parser")
     suspend fun getFoodAPI(@Query("ingr") ingr: String?): FoodAPIResponse
 }
